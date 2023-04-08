@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { 
-    Box, 
-    Grid, 
-    GridItem, 
-    Text 
+import {
+    Box,
+    Flex,
+    Grid,
+    GridItem,
+    Text
 } from "@chakra-ui/react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -27,7 +28,7 @@ const Drag = () => {
         rank: -1
     }
   ]
-  
+
 
   return (
     <Box
@@ -35,7 +36,7 @@ const Drag = () => {
     >
         <Flex
             className="
-                
+
             "
         >
 
