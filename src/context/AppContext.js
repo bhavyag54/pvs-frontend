@@ -10,9 +10,8 @@ export const ApiProvider = ({children}) => {
     let navigate = useNavigate()
     const web3 = new Web3(Web3.givenProvider || 'http://localhost:3000');
 
-    const [polls, setPolls] = useState({
-
-    })
+    const [polls, setPolls] = useState([])
+    const [myPolls, setMyPolls] = useState([])
 
     const [isExecuted, setIsExecuted] = useState(false)
 
@@ -41,11 +40,11 @@ export const ApiProvider = ({children}) => {
     }, [])
 
     useEffect(() => {
-        if(accountData?.accountNo)
+        if(accountData?.accountNo && window.location.pathname === '/')
             navigate('/dashboard')
     }, [accountData])
 
-    const contractAddress = '0xD81c06E299Ee20533E6072298f36A2893cCc8a94';
+    const contractAddress = '0xD3Ca5E1EAEA0626a86aB709C0e2cF5DABB0A67Ec';
     const contractAbi = PVSContract.abi;
 
     const pvsContract = new web3.eth.Contract(contractAbi, contractAddress);
@@ -80,31 +79,33 @@ export const ApiProvider = ({children}) => {
     }
 
 
+
+
     useEffect(() => {
 
         const func = async () => {
 
             const filterOptions = {
-                filter: {
-                  owner: accountData?.accountNo
-                },
+                // filter: {
+                //   owner: accountData?.accountNo
+                // },
                 fromBlock: 0,
                 toBlock: 'latest'
               };
 
+              
 
             await pvsContract.events.PollCreated(filterOptions, (error, event) => {
-            })
-            .on('data', (event) => {
-                setPolls(p => ({
-                    ...p,
-                    [event.returnValues.pollIndex]: event.returnValues.owner
-                }))
-            })
+            }).on('data', (event) => {
+                setPolls(p => ([...p, event.returnValues.pollIndex]))})
             .on('error', console.error)
 
             await pvsContract.events.VoteCast().on('data', (event) => {
-            }).on('error', (error) => {
+            })
+            .on('event', (event) => {
+                console.log(event)
+            })
+            .on('error', (error) => {
                 console.error(error);
             });
 
@@ -119,22 +120,37 @@ export const ApiProvider = ({children}) => {
         
         const pollOwner = await pvsContract.methods.polls(id).call();
         const data  = await pvsContract.methods.pollData(id).call();
+
+        // console.log(data)
+
         return {
+            id: id,
             name:pollOwner.name,
             owner: pollOwner.owner,
-            options: data[0]
+            options: data[0],
+            cand: data.cand
         }
     }
 
     useEffect(() => {
         console.log("polls: ", polls)
-
+        
         const func = async () => {
-            const data  = await pollData(polls.pollIndex)
-            console.log(data)
+
+            const pollsOwner = []
+            
+            for(let i = 0; i<polls.length; i++)
+            {
+                const data = await pollData(polls[i])
+                console.log(data)
+                pollsOwner.push(data)
+            }
+
+            setMyPolls([...pollsOwner])
+
         }
 
-        if(polls)
+        if(polls.length)
             func()
 
     }, [polls])
@@ -151,8 +167,9 @@ export const ApiProvider = ({children}) => {
         connect,
         pollData,
         vote,
+        myPolls,
         accountData
-    }), [accountData])
+    }), [accountData, myPolls])
 
     return <ApiContext.Provider value={memo}>
         {children}

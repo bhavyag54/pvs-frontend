@@ -41,7 +41,7 @@ const Hero = () => {
                         }}
                         w="full"
                         bgClip="text"
-                        bgGradient="linear(to-r, green.400,purple.500)"
+                        bgGradient="linear(to-r, teal.400,purple.500)"
                         fontWeight="extrabold"
                     >
                         Empower your DAO
@@ -75,13 +75,14 @@ const Hero = () => {
                 mx="auto"
                 mt={20}
                 textAlign="center"
+                
             >
                 <Image
                     w="full"
-                    rounded="lg"
+                    rounded="2xl"
                     shadow="2xl"
-                    src="https://kutty.netlify.app/hero.jpg"
-                    alt="Hellonext feedback boards software screenshot"
+                    src="https://res.cloudinary.com/dpjf6btln/image/upload/v1681148401/Screenshot_2023-04-10_230554_wl4jpk.png"
+                    alt="Hero Image"
                 />
             </Box>
         </Box>

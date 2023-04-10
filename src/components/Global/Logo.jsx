@@ -6,8 +6,18 @@ import { MdHowToVote } from 'react-icons/md'
 const Logo = () => {
     return (
         <HStack>
-            <MdHowToVote size={'40'} color='#68D391' />
-            <Heading display={['none', 'none', 'block', 'block']} fontSize='2xl' fontWeight='bold' fontFamily={`'Raleway',sans-serif`}>Preferential Voting System</Heading>
+            <MdHowToVote size={'40'} color='#4FD1C5' />
+            <Heading display={['none', 'none', 'block', 'block']} mt={2}
+                fontSize={{
+                    base: "xl",
+                    sm: "2xl",
+                }}
+                lineHeight="8"
+                fontWeight="extrabold"
+                // letterSpacing="tight"
+                _light={{
+                    color: "gray.900",
+                }} >Preferential Voting System</Heading>
         </HStack>
     )
 }

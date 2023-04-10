@@ -6,9 +6,9 @@ import Navbar from "./components/Global/Navbar";
 import {Routes, Route} from 'react-router-dom'
 import useApi from "./context/AppContext";
 import Dashboard from "./pages/Dashboard";
-import PrivateRoute from "./hooks/PrivateRoute";
 import Drag from "./components/Drag";
 import Error from "./pages/Error";
+import Footer from "./components/Global/Footer";
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
 	useEffect(() => {
 		const darkModeCookie = window.localStorage.getItem("darkMode");
 		if (darkModeCookie === "true")
-		  	toggleColorMode();
+			toggleColorMode();
 	}, []);
 
 	const {accountData} = useApi()
@@ -37,9 +37,14 @@ function App() {
 					<Route path="/vote/:id" element={<Drag/>}/>
 					:""
 				}
+				{accountData?.accountNo?
+					<Route path="/dashboard" element={<Dashboard />} />
+					:""
+				}
 
-				<Route path="/*" element={<Error/>}/>
+				<Route path="*" element={<Error/>}/>
 			</Routes>
+			<Footer/>
 		</Box>
     );
 }

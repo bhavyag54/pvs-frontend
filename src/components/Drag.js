@@ -8,7 +8,8 @@ import {
     SimpleGrid,
     Menu, MenuButton, MenuList, MenuItem,
     Button,
-    useToast
+    useToast,
+    Tooltip
 } from "@chakra-ui/react";
 import { CSSTransition, TransitionGroup, Transition } from 'react-transition-group';
 import useApi from "../context/AppContext";
@@ -17,11 +18,11 @@ import { useParams } from 'react-router-dom'
 const Drag = () => {
 
     const params = useParams()
-    const {pollData, vote} = useApi()
+    const {pollData, vote, accountData} = useApi()
     const toast = useToast()
     const [id, setId] = useState(0)
     const [data, setData] = useState([])
-
+    const [owner, setOwner] = useState("")
     const [candidates, setCandidates] = useState([])
     
     useEffect(() => {
@@ -37,7 +38,8 @@ const Drag = () => {
         const func = async () => {
             console.log("working...")
             const d = await pollData(id)
-            console.log(d)
+            
+            setOwner(d.owner)
 
             setCandidates(d.options)
             setData(d.options.map((c, index) => ({
@@ -121,7 +123,7 @@ const Drag = () => {
 
     return (
 
-        <Flex className="flex-col gap-3 items-center pt-20">
+        <Flex className="flex-col gap-3 items-center pt-20" minH={'100vh'}>
             <TransitionGroup className={'p-2'}>
                 
                 {data.map(d => {
@@ -163,6 +165,22 @@ const Drag = () => {
                 onClick={() => sendData()}
                 
             >Submit</Button>
+
+            {owner.toLowerCase() === accountData?.accountNo.toLowerCase()?
+
+                <Tooltip label={"Under Development"}>
+
+                    <Button className="w-80"
+                    colorScheme="red"
+                    isDisabled={true}
+                    // onClick={() => sendData()}
+                    
+                    
+                    >Close Poll</Button>
+                </Tooltip>:""
+            }
+
+
 
         </Flex>
 
