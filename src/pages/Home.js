@@ -3,6 +3,7 @@ import React from 'react'
 import Hero from '../components/Landing/Hero'
 import Navbar from '../components/Global/Navbar'
 import About from '../components/Landing/About'
+import Footer from '../components/Global/Footer'
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <Navbar />
       <Hero />
       <About />
+      <Footer />
     </Flex>
   )
 }

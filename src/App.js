@@ -10,12 +10,12 @@ function App() {
 	useEffect(() => {
 		const darkModeCookie = window.localStorage.getItem("darkMode");
 		if (darkModeCookie === "true")
-		  	toggleColorMode();
+			toggleColorMode();
 	}, []);
 
-    return (
-		<Form/>
-    );
+	return (
+		<Home />
+		);
 }
 
 export default App;
