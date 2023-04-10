@@ -1,9 +1,16 @@
+import { Box, Button, Flex, Heading, Icon, Image, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
-import Drag from '../components/Drag'
+import Hero from '../components/Landing/Hero'
+import Navbar from '../components/Global/Navbar'
+import About from '../components/Landing/About'
 
 const Home = () => {
   return (
-    <Drag/>
+    <Flex direction={'column'} bg={'black'} minH={"100vh"}>
+      <Navbar />
+      <Hero />
+      <About />
+    </Flex>
   )
 }
 
