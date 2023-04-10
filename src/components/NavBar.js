@@ -24,6 +24,7 @@ const Navbar = () => {
             // bg={'red'}
             // w={"100vw"}
             boxShadow={'2xl'}
+            zIndex={100}
         >
 
             <Flex

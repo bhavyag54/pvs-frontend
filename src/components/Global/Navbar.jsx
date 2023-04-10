@@ -32,7 +32,7 @@ export default function Navbar() {
         <>
 
             <Flex w="100%" position={'fixed'} backgroundColor="rgba(0, 
- 0, 0, 0.8)" backdropFilter="saturate(180%) blur(5px)" h={16} px={4} alignItems={'center'} justifyContent={'space-between'}>
+ 0, 0, 0.8)" backdropFilter="saturate(180%) blur(5px)" h={16} px={4} alignItems={'center'} justifyContent={'space-between'} zIndex={100}>
                 <Logo />
 
                 <Flex alignItems={'center'}>
