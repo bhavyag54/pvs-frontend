@@ -15,7 +15,7 @@ import useApi from "../context/AppContext";
 
 const Drag = () => {
 
-    const {sendData} = useApi()
+    // const {} = useApi()
     const toast = useToast()
     
     const n = 3;
@@ -121,7 +121,7 @@ const Drag = () => {
             </TransitionGroup>
 
             <Button className="w-80"
-                onClick={() => sendData()}
+                // onClick={() => ()}
                 
             >Submit</Button>
 
