@@ -15,7 +15,7 @@ const About = () => {
                         w={12}
                         rounded="md"
                         _light={{
-                            bg: "green.500",
+                            bg: "teal.500",
                         }}
                         color="white"
                     >
@@ -85,7 +85,7 @@ const About = () => {
                         }}
                     >
                         <chakra.h2
-                            _light={{ color: "green.600" }}
+                            _light={{ color: "teal.600" }}
                             fontWeight="semibold"
                             textTransform="uppercase"
                             letterSpacing="wide"

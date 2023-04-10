@@ -6,7 +6,7 @@ import { MdHowToVote } from 'react-icons/md'
 const Logo = () => {
     return (
         <HStack>
-            <MdHowToVote size={'40'} color='#68D391' />
+            <MdHowToVote size={'40'} color='#4FD1C5' />
             <Heading display={['none', 'none', 'block', 'block']} mt={2}
                 fontSize={{
                     base: "xl",

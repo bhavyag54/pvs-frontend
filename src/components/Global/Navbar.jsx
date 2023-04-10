@@ -34,7 +34,7 @@ export default function Navbar() {
                 <Flex alignItems={'center'}>
                     <Stack direction={'row'} spacing={7}>
                         {!isLogged ? (
-                            <Button variant={"solid"} colorScheme={"green"} leftIcon={<AiOutlineWallet />}>Connect With Meta Mask</Button>
+                            <Button variant={"solid"} colorScheme={"teal"} leftIcon={<AiOutlineWallet />}>Connect With Meta Mask</Button>
                         ) : (
                             <Menu>
                                 <MenuButton
