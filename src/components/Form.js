@@ -12,7 +12,18 @@ import {
   Text,
   // Toast,
   useColorModeValue,
-  useToast
+  useToast,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from '@chakra-ui/react';
 import useApi from '../context/AppContext';
 
@@ -20,10 +31,14 @@ const Modal = () => {
   const [options, setOptions] = useState([]);
   const {createPoll} = useApi();
 
+  const [pollId, setPollId] = useState(-1)
+
+  const [loading, setLoading] = useState(false)
+
   const [pollData, setPollData] = useState({
     name: '',
-    description: "",
-    contact: ""
+    // description: "",
+    // contact: ""
   })
 
   const handlePollData = (e) => {
@@ -55,6 +70,7 @@ const Modal = () => {
 
   const handleSubmit = async () => {
 
+    setLoading(true)
     // console.log(options.length)
     if(options.length < 2)
     {
@@ -64,26 +80,43 @@ const Modal = () => {
         duration: 2000,
         isClosable: true,
       })
+      setLoading(false)
       return
     }
-    if(!pollData.name || !pollData.contact || !pollData.description)
+    if(!pollData.name)
     {
       toast({
-        title: 'Fill the required field',
+        title: 'Name Field is required',
         status: 'error',
         duration: 2000,
         isClosable: true,
       })
-
+      setLoading(false)
       return
     }
 
-    await createPoll({
+    if(options.filter(o => o === "").length > 0)
+    {
+      toast({
+        title: 'Options field cannot be empty',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+      setLoading(false)
+      return
+    }
+
+    const data = await createPoll({
 
       options: options,
       owner: pollData
 
     })
+
+    console.log(data)
+    setPollId(data)
+    setLoading(false)
 
   }
 
@@ -96,6 +129,7 @@ const Modal = () => {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
+      flexDirection={'column'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
@@ -118,14 +152,7 @@ const Modal = () => {
                 <Input type="text" onChange={e => handlePollData(e)} name='name' />
               </FormControl>
             </Box>
-            <FormControl id="description" isRequired>
-              <FormLabel>Description of the Poll</FormLabel>
-              <Input type="text" onChange={e => handlePollData(e)} name="description" />
-            </FormControl>
-            <FormControl id="description" isRequired>
-              <FormLabel>Contract Number of the Poll</FormLabel>
-              <Input type="text" name="contact" onChange={e => handlePollData(e)}  />
-            </FormControl>
+            
             <Stack spacing={10} pt={2}>
               {options.map((option, index) => (
                 <HStack key={index}>
@@ -160,6 +187,7 @@ const Modal = () => {
             </Stack>
             <Stack spacing={10} pt={2}>
               <Button
+                isLoading={loading}
                 loadingText="Submitting"
                 size="lg"
                 bg={'blue.400'}
@@ -167,6 +195,7 @@ const Modal = () => {
                 _hover={{
                   bg: 'blue.500',
                 }}
+                
                 onClick={() => handleSubmit()}
                 >
                 Create the Poll
@@ -174,7 +203,14 @@ const Modal = () => {
             </Stack>
           </Stack>
         </Box>
-      </Stack>
+      </Stack>    
+
+      {pollId>0?
+      <Text>
+        {`https://pvs.com/vote/${pollId}`}
+      </Text>:""
+      }
+
     </Flex>
   );
 };

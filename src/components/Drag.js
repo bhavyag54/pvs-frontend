@@ -12,35 +12,76 @@ import {
 } from "@chakra-ui/react";
 import { CSSTransition, TransitionGroup, Transition } from 'react-transition-group';
 import useApi from "../context/AppContext";
+import { useParams } from 'react-router-dom'
 
 const Drag = () => {
 
-    // const {} = useApi()
+    const params = useParams()
+    const {pollData, vote} = useApi()
     const toast = useToast()
-    
-    const n = 3;
-    const arr = Array.from({length: n}, (_, index) => index+1);
-    
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: "Nwnpdw",
-            rank: 'NaN',
-        },
-        {
-            id: 2,
-            name: "something",
-            rank: 'NaN',
-        },
-        {
-            id: 3,
-            name: "Nww",
-            rank: 'NaN',
-        },
-    ])
-    
+    const [id, setId] = useState(0)
+    const [data, setData] = useState([])
 
-    arr.push('NaN')
+    const [candidates, setCandidates] = useState([])
+    
+    useEffect(() => {
+
+        setId(params.id)
+
+    }, [params])
+
+    useEffect(() => {
+
+        console.log("working 1")
+
+        const func = async () => {
+            console.log("working...")
+            const d = await pollData(id)
+            console.log(d)
+
+            setCandidates(d.options)
+            setData(d.options.map((c, index) => ({
+                id: index+1,
+                rank: 'NaN',
+                name: c
+            })))
+        }
+
+        if(id > 0)
+            func()
+
+    }, [id])
+
+    useEffect(() => {
+
+        console.log(data)
+        console.log(candidates)
+        
+    }, [data])
+    
+    const sendData = async () => {
+
+        if(data.filter(d => d.rank === 'NaN').length > 0)
+        {
+            toast({
+                title: 'Rank cannot be NaN',
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            })
+            return;
+        }
+
+        const finalRanks = []
+
+        candidates.forEach(c => {
+            finalRanks.push(data.filter(d => d.name === c)[0].rank)
+        })
+
+        console.log(finalRanks)
+        await vote(finalRanks, id)
+
+    }
     
     const Select = (item, id) => {
 
@@ -77,13 +118,10 @@ const Drag = () => {
         setData(updatedList)
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     return (
 
-        <Flex className="flex-col gap-3 items-center">
+        <Flex className="flex-col gap-3 items-center pt-20">
             <TransitionGroup className={'p-2'}>
                 
                 {data.map(d => {
@@ -103,13 +141,13 @@ const Drag = () => {
                                 {d.name}
                                 </Text>
                                 <Menu>
-                                    <MenuButton as={Button} colorScheme="blue">
+                                    <MenuButton as={Button} colorScheme="teal">
                                         {d.rank}
                                     </MenuButton>
                                     <MenuList maxH={64} overflowY="auto">
-                                        {arr.map(item => (
-                                            <MenuItem key={item} onClick={() => Select(item, d.id)} _hover={{ bg: "gray.600" }}>
-                                                {item}
+                                        {candidates.map((item, i) => (
+                                            <MenuItem key={i} onClick={() => Select(i+1, d.id)} _hover={{ bg: "gray.600" }}>
+                                                {i+1}
                                         </MenuItem>
                                         ))}
                                     </MenuList>
@@ -121,7 +159,8 @@ const Drag = () => {
             </TransitionGroup>
 
             <Button className="w-80"
-                // onClick={() => ()}
+                colorScheme="teal"
+                onClick={() => sendData()}
                 
             >Submit</Button>
 
@@ -130,6 +169,5 @@ const Drag = () => {
     );
     
 };
-
 
 export default Drag

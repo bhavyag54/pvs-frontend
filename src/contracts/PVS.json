@@ -1,9 +1,9 @@
-{"abi": [
+{"abi":[
 	{
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "uint256",
 				"name": "pollIndex",
 				"type": "uint256"
@@ -22,10 +22,16 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "uint256",
 				"name": "pollIndex",
 				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
 			}
 		],
 		"name": "PollCreated",
@@ -35,7 +41,7 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "uint256",
 				"name": "pollIndex",
 				"type": "uint256"
@@ -72,14 +78,14 @@
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
 				"internalType": "string[]",
 				"name": "_candidates",
 				"type": "string[]"
-			},
-			{
-				"internalType": "address[]",
-				"name": "_owners",
-				"type": "address[]"
 			}
 		],
 		"name": "createPoll",
@@ -122,12 +128,41 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "pollIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "pollData",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "cand",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
 		],
 		"name": "polls",
 		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
 			{
 				"internalType": "string",
 				"name": "winner",
@@ -137,6 +172,30 @@
 				"internalType": "bool",
 				"name": "closed",
 				"type": "bool"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pollIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "winner",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",

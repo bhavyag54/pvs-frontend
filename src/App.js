@@ -1,17 +1,20 @@
 import { useEffect } from "react";
 import Home from "./pages/Home";
-import { useColorMode } from "@chakra-ui/react";
+import { Box, useColorMode } from "@chakra-ui/react";
 import Form from "./components/Form";
-import Navbar from "./components/NavBar";
+import Navbar from "./components/Global/Navbar";
 import {Routes, Route} from 'react-router-dom'
 import useApi from "./context/AppContext";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./hooks/PrivateRoute";
+import Drag from "./components/Drag";
+import Error from "./pages/Error";
 
 function App() {
 
 	const { colorMode, toggleColorMode } = useColorMode();
 	window.localStorage.setItem("darkMode", 'true')
+	
 	useEffect(() => {
 		const darkModeCookie = window.localStorage.getItem("darkMode");
 		if (darkModeCookie === "true")
@@ -21,13 +24,23 @@ function App() {
 	const {accountData} = useApi()
 
     return (
-		<>
+		<Box bg={'black'} minH={'100vh'}>
 			<Navbar/>
 			<Routes>
-				<Route path="/" element={<Dashboard/>}/>
-				<Route path="/createPoll" element={<Form/>}/>
+				<Route path="/" element={<Home/>}/>
+				{accountData?.accountNo?
+					<Route path="/createPoll" element={<Form/>}/>
+					:""
+				}
+
+				{accountData?.accountNo?
+					<Route path="/vote/:id" element={<Drag/>}/>
+					:""
+				}
+
+				<Route path="/*" element={<Error/>}/>
 			</Routes>
-		</>
+		</Box>
     );
 }
 

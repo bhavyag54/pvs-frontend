@@ -12,11 +12,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ChakraProvider>
-      <ApiProvider>
-        <Router>
-          <App />
-        </Router>
-      </ApiProvider>
+      <Router>
+        <ApiProvider>
+            <App />
+        </ApiProvider>
+      </Router>
   </ChakraProvider>
 );
 
