@@ -1,50 +1,9 @@
-import { useState } from "react";
-import {
-    Box,
-    Grid,
-    GridItem,
-    Text,
-    Flex
-} from "@chakra-ui/react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import React from 'react'
 
 const Drag = () => {
-    const [rankings, setRankings] = useState("");
-
-    const data = [
-        {
-            id: 1,
-            name: 'someone',
-            rank: -1
-        },
-        {
-            id: 1,
-            name: 'someone',
-            rank: -1
-        },
-        {
-            id: 1,
-            name: 'someone',
-            rank: -1
-        }
-    ]
-
-
-    return (
-        <Box
-
-        >
-            <Flex
-                className="
-                
-            "
-            >
-
-            </Flex>
-        </Box>
-    )
-
+  return (
+    <div>Drag</div>
+  )
 }
-
 
 export default Drag
