@@ -16,58 +16,52 @@ import {
     useColorMode,
     Center,
     IconButton,
+    Text,
 } from '@chakra-ui/react';
 import { AiOutlineWallet } from 'react-icons/ai';
 import Logo from './Logo';
+import useApi from '../../context/AppContext';
 
 
 
 export default function Navbar() {
-    const [isLogged, setIsLogged] = useState(false);
+
+    const {accountData, connect} = useApi()
+
     return (
         <>
 
             <Flex w="100%" position={'fixed'} backgroundColor="rgba(0, 
- 0, 0, 0.8)" backdropFilter="saturate(180%) blur(5px)" h={16} px={4} alignItems={'center'} justifyContent={'space-between'}>
+ 0, 0, 0.8)" backdropFilter="saturate(180%) blur(5px)" h={16} px={4} alignItems={'center'} justifyContent={'space-between'} zIndex={100}>
                 <Logo />
 
                 <Flex alignItems={'center'}>
                     <Stack direction={'row'} spacing={7}>
-                        {!isLogged ? (
-                            <Button variant={"solid"} colorScheme={"teal"} leftIcon={<AiOutlineWallet />}>Connect With Meta Mask</Button>
-                        ) : (
-                            <Menu>
-                                <MenuButton
-                                    as={Button}
-                                    rounded={'full'}
-                                    variant={'link'}
-                                    cursor={'pointer'}
-                                    minW={0}>
-                                    <Avatar
-                                        size={'sm'}
-                                        src={'https://avatars.dicebear.com/api/male/username.svg'}
-                                    />
-                                </MenuButton>
-                                <MenuList alignItems={'center'}>
-                                    <br />
-                                    <Center>
-                                        <Avatar
-                                            size={'2xl'}
-                                            src={'https://avatars.dicebear.com/api/male/username.svg'}
-                                        />
-                                    </Center>
-                                    <br />
-                                    <Center>
-                                        <p>Username</p>
-                                    </Center>
-                                    <br />
-                                    <MenuDivider />
-                                    <MenuItem>Your Servers</MenuItem>
-                                    <MenuItem>Account Settings</MenuItem>
-                                    <MenuItem>Logout</MenuItem>
-                                </MenuList>
-                            </Menu>
-                        )}
+                        
+                        <Button variant={"solid"} colorScheme={"green"} leftIcon={<AiOutlineWallet />} onClick={connect}
+                            transition={"all"}
+                        >
+
+                        {accountData.accountNo?
+                            <Flex
+                                flexDirection={'column'}
+                                justifyContent={'center'}
+                            >
+                                <Text
+                                    color={'rgba(0,0,0, 0.3)'}
+                                >
+                                    {accountData?.accountNo.substring(1,8)+"..."+accountData?.accountNo.substring(accountData?.accountNo.length - 4)}
+                                </Text>
+                                <Text
+                                    fontSize={14}
+                                >
+                                    {parseFloat(accountData?.balance).toPrecision(3)} eth
+                                </Text>
+                            </Flex>:
+                            "Connect with Meta Mask Wallet"
+                        }
+                        </Button>
+                        
                     </Stack>
                 </Flex>
             </Flex>

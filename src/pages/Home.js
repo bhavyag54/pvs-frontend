@@ -8,10 +8,8 @@ import Footer from '../components/Global/Footer'
 const Home = () => {
   return (
     <Flex direction={'column'} bg={'black'} minH={"100vh"}>
-
       <Hero />
       <About />
-
     </Flex>
   )
 }

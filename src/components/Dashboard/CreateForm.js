@@ -1,9 +1,12 @@
 import React from 'react'
 import { Box, Flex, Stack, chakra, SimpleGrid, Button } from '@chakra-ui/react'
-
+import {Link, useNavigate} from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
 
 const CreateForm = () => {
+
+    const navigate = useNavigate()
+
     return (
         <Box
             bg={'teal.300'}
@@ -54,7 +57,7 @@ const CreateForm = () => {
                     justifyContent='flex-end'
                 >
                     <Button size="lg" bgColor={'gray.800'} _hover={{ bg: 'gray.800' }}
-                        _active={{ bg: 'black' }} leftIcon={<FiPlus />}>
+                        _active={{ bg: 'black' }} leftIcon={<FiPlus />} onClick={() => navigate('/createPoll')}>
                         Create Poll
                     </Button>
                 </Stack>

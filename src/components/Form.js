@@ -10,11 +10,47 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue
+  // Toast,
+  useColorModeValue,
+  useToast,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from '@chakra-ui/react';
+import useApi from '../context/AppContext';
 
 const Modal = () => {
-  const [options, setOptions] = useState(['', '']);
+  const [options, setOptions] = useState([]);
+  const {createPoll} = useApi();
+
+  const [pollId, setPollId] = useState(-1)
+
+  const [loading, setLoading] = useState(false)
+
+  const [pollData, setPollData] = useState({
+    name: '',
+    // description: "",
+    // contact: ""
+  })
+
+  const handlePollData = (e) => {
+    // console.log(e)
+
+    setPollData({
+      ...pollData, 
+    [e.target.name]: e.target.value
+    })
+  }
+
+  const toast = useToast()
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
@@ -32,11 +68,68 @@ const Modal = () => {
     setOptions(newOptions);
   };
 
+  const handleSubmit = async () => {
+
+    setLoading(true)
+    // console.log(options.length)
+    if(options.length < 2)
+    {
+      toast({
+        title: 'Atleast 2 options required',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+      setLoading(false)
+      return
+    }
+    if(!pollData.name)
+    {
+      toast({
+        title: 'Name Field is required',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+      setLoading(false)
+      return
+    }
+
+    if(options.filter(o => o === "").length > 0)
+    {
+      toast({
+        title: 'Options field cannot be empty',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+      setLoading(false)
+      return
+    }
+
+    const data = await createPoll({
+
+      options: options,
+      owner: pollData
+
+    })
+
+    console.log(data)
+    setPollId(data)
+    setLoading(false)
+
+  }
+
+  useState(() => {
+    console.log(options)
+  }, [options])
+
   return (
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
+      flexDirection={'column'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
@@ -56,17 +149,10 @@ const Modal = () => {
             <Box>
               <FormControl id="Name" isRequired>
                 <FormLabel>Name of the Poll</FormLabel>
-                <Input type="text" />
+                <Input type="text" onChange={e => handlePollData(e)} name='name' />
               </FormControl>
             </Box>
-            <FormControl id="description" isRequired>
-              <FormLabel>Description of the Poll</FormLabel>
-              <Input type="text" />
-            </FormControl>
-            <FormControl id="description" isRequired>
-              <FormLabel>Contract Number of the Poll</FormLabel>
-              <Input type="text" />
-            </FormControl>
+            
             <Stack spacing={10} pt={2}>
               {options.map((option, index) => (
                 <HStack key={index}>
@@ -101,19 +187,35 @@ const Modal = () => {
             </Stack>
             <Stack spacing={10} pt={2}>
               <Button
+                isLoading={loading}
                 loadingText="Submitting"
                 size="lg"
                 bg={'teal.400'}
                 color={'white'}
                 _hover={{
+<<<<<<< HEAD
                   bg: 'teal.500',
                 }}>
+=======
+                  bg: 'blue.500',
+                }}
+                
+                onClick={() => handleSubmit()}
+                >
+>>>>>>> 6588ffca9a68c096ea76857697ec601464ef7c21
                 Create the Poll
               </Button>
             </Stack>
           </Stack>
         </Box>
-      </Stack>
+      </Stack>    
+
+      {pollId>0?
+      <Text>
+        {`https://pvs.com/vote/${pollId}`}
+      </Text>:""
+      }
+
     </Flex>
   );
 };

@@ -2,25 +2,14 @@ import React from 'react'
 import { Flex, Box, Heading } from '@chakra-ui/react'
 import CreateForm from '../components/Dashboard/CreateForm'
 import ElectionCard from '../components/Dashboard/ElectionCard'
+import useApi from '../context/AppContext'
+
 const Dashboard = () => {
-    const ElectionCards = [
-        {
-            title: 'Election 1',
-            description: 'This is the first election',
-        },
-        {
-            title: 'Election 2',
-            description: 'This is the second election'
-        },
-        {
-            title: 'Election 3',
-            description: 'This is the third election'
-        },
-        {
-            title: 'Election 4',
-            description: 'This is the fourth election'
-        },
-    ]
+
+    const {myPolls} = useApi()
+
+    console.log(myPolls)
+ 
     return (
         <Flex direction={'column'} bg={'black'} minH={"100vh"}>
             <Box px={8} mt={24} mb={12} mx="auto">
@@ -43,9 +32,9 @@ const Dashboard = () => {
             </Heading>
             <Flex direction={'row'} justifyContent={'space-evenly'} flexWrap={'wrap'} gap={10} my={10}>
 
-                {ElectionCards.map((election, index) => {
+                {myPolls.map((poll, index) => {
                     return (
-                        <ElectionCard title={election.title} description={election.description} />
+                        <ElectionCard title={poll.name} id={poll.id} />
                     )
                 })}
             </Flex>

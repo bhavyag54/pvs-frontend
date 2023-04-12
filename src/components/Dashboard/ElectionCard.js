@@ -1,8 +1,11 @@
 import React from 'react'
 import { MdHowToVote } from 'react-icons/md'
 import { Box, Flex, Stack, chakra, SimpleGrid, Button, Text } from '@chakra-ui/react'
-
+import {useNavigate} from 'react-router-dom'
 const ElectionCard = (props) => {
+
+    const navigate = useNavigate()
+
     return (
         <Flex
             direction={'column'}
@@ -27,20 +30,7 @@ const ElectionCard = (props) => {
                 >
                     <chakra.span display="block" >{props.title}</chakra.span>
                 </chakra.h2>
-                <Text
-                    mt={4}
-                    maxW="2xl"
-                    fontSize="xl"
-                    mx={{
-                        lg: "auto",
-                    }}
-                    color="gray.500"
-                    _dark={{
-                        color: "gray.400",
-                    }}
-                >
-                    {props.description}
-                </Text>
+
                 <Stack
                     direction={{
                         base: "column",
@@ -49,7 +39,7 @@ const ElectionCard = (props) => {
                     justifyContent='flex-end'
                     mt={8}
                 >
-                    <Button size="lg" colorScheme={'teal'} leftIcon={<MdHowToVote />}>
+                    <Button size="lg" colorScheme={'teal'} leftIcon={<MdHowToVote />} onClick={() => navigate(`/vote/${props.id}`)}>
                         Participate
                     </Button>
                 </Stack>
