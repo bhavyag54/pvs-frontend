@@ -89,10 +89,10 @@ const Modal = () => {
               <Button
                 loadingText="Submitting"
                 size="lg"
-                bg={'blue.400'}
+                bg={'teal.400'}
                 color={'white'}
                 _hover={{
-                  bg: 'blue.500',
+                  bg: 'teal.500',
                 }}
                 onClick={handleAddOption}
               >
@@ -103,10 +103,10 @@ const Modal = () => {
               <Button
                 loadingText="Submitting"
                 size="lg"
-                bg={'blue.400'}
+                bg={'teal.400'}
                 color={'white'}
                 _hover={{
-                  bg: 'blue.500',
+                  bg: 'teal.500',
                 }}>
                 Create the Poll
               </Button>
